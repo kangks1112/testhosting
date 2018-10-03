@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0, user-scalable=no">
+        <title>HTML5 Canvas Slideshow | Script Tutorials</title>
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/pixastic.custom.js"></script>
+        <script src="js/script.js"></script>
+		<style>
+        /* Muaz Khan (@muazkh) */
+        ::-webkit-scrollbar {
+          height: 0;
+          overflow: visible;
+          width: 10px;
+          border-left:1px solid rgb(229, 229, 229);
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: rgba(0, 0, 0, .2);
+          background-clip: padding-box;
+          min-height: 28px;
+          padding: 100px 0 0;
+          box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
+          border-width: 1px 1px 1px 6px;
+        }
+        ::-webkit-scrollbar-button {
+          height: 0;
+          width: 0;
+        }
+        ::-webkit-scrollbar-track {
+          background-clip: padding-box;
+          border: solid transparent;
+          border-width: 0 0 0 4px;
+        }
+        ::-webkit-scrollbar-corner {
+          background: transparent;
+        }
+        ::selection, ::-moz-selection {
+            background: #00A2E8;
+            color: #fff;
+            text-shadow: none;
+        }
+        html, body, .footer, input, textarea, h1, h2 {
+            margin: 0;
+            padding: 0;
+            word-wrap: break-word;
+            -o-text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            font-family: Verdana, arial, helvetica, sans-serif
+        }
+        html {
+            background-color: #FBFBFB;
+            font-size: 13px;
+            height:100%;
+            cursor: default;
+            overflow-x: hidden;
+        }
+        .footer
+        {
+            border-top: 1px solid #E5E5E5;
+            text-align: center;
+        }
+        h1, h2
+        {
+            border-bottom: 1px solid #E5E5E5;
+            text-align: center;
+            text-shadow: 1px 1px #E5E5E5, 2px 2px white, 3px 3px #E5E5E5;
+            color: #6c96c8;
+            font-size: 350%;
+            font-weight: normal;
+            padding-bottom: 10px;
+            overflow:hidden;
+            height: 55px;
+        }
+        h1, .footer, .no-user-select, .view-buttons a
+        {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        h1
+        {
+            background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(243,243,243,1) 97%, rgba(237,237,237,1) 97%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(97%,rgba(243,243,243,1)), color-stop(97%,rgba(237,237,237,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 97%,rgba(237,237,237,1) 97%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 97%,rgba(237,237,237,1) 97%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 97%,rgba(237,237,237,1) 97%,rgba(255,255,255,1) 100%); /* IE10+ */
+            background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 97%,rgba(237,237,237,1) 97%,rgba(255,255,255,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+        }
+        h2 {
+            font-size: 30px;
+            font-weight: normal;
+            text-align: left;
+            height: auto;
+        }
+        a {
+            color: #0b7aff;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #043877;
+        }
+        section h2, section p, section pre, div h2, div p, div pre
+        {
+          padding: 1% 2%;
+        }
+        pre, code {
+            font-family: Consolas, "Andale Mono", "Lucida Console", "Courier New", monospace;
+            color: #666
+        }
+        img {
+            width: 100%;
+            -webkit-user-drag: none;
+        }
+        img:hover {
+            box-shadow: 0 0 3px rgb(0, 162, 232);
+        }
+        img, .view-buttons a
+        {
+            border: 1px solid rgb(0, 162, 232);
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgb(0, 162, 232);
+        }
+        .view-buttons a {
+            padding: 5px 10px;
+            background-color: #FBFBFB;
+        }
+        .view-buttons {
+            padding: 20px;
+            text-align: center;
+        }
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+    </style>
+    </head>
+    <body>
+        <h1>
+            Canvas2D+Mp3: click to <button id="btn-record-webm" style="font-size:inherit;">Record as WebM</button>
+        </h1>
+        <div class="container">
+            <div class="slides">
+                <img src="images/pic1.jpg" />
+                <img src="images/pic2.jpg" />
+                <img src="images/pic3.jpg" />
+                <img src="images/pic4.jpg" />
+                <img src="images/pic5.jpg" />
+                <img src="images/pic6.jpg" />
+                <img src="images/pic7.jpg" />
+            </div>
+            <canvas id="slideshow" width="900" height="300"></canvas>
+        </div>
+		<script>
+        (function () {
+            if (!document.createElement('canvas').getContext) {
+                document.body.innerHTML = '<h1 style="height:auto;color:red;font-size:30px;">Excuse me Sir,<br /><br />You are using very old web-browser!<br /><br />Please upgrade it.</h1>';
+            }
+            var prepend = function (parent, elementToPrepend)
+            {
+                return parent.insertBefore(elementToPrepend, parent.firstChild);
+            };
+            var div = document.createElement('div');
+            div.innerHTML = '<g:plusone size="tall"></g:plusone>';
+            div.className = 'gplus-button';
+            div.style.position = 'absolute';
+            div.style.top = 0;
+            div.style.padding = '3px 0';
+            div.style.right = '30px';
+            var body = document.body;
+            if(body.insertBefore) prepend(body, div);
+            else document.body.appendChild(div);
+        })();
+        (function () {
+            var lastTime = 0, vendors = ['ms', 'moz', 'webkit', 'o'];
+            for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+                window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'RequestCancelAnimationFrame'];
+            }
+            if (!window.requestAnimationFrame)
+                window.requestAnimationFrame = function (callback, element) {
+                    var currTime = new Date().getTime();
+                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                    var id = window.setTimeout(function () {
+                        callback(currTime + timeToCall);
+                    }, timeToCall);
+                    lastTime = currTime + timeToCall;
+                    return id;
+                };
+            if (!window.cancelAnimationFrame)
+                window.cancelAnimationFrame = function (id) {
+                    clearTimeout(id);
+                };
+        }());
+    </script>
+
+    <!-- below section handles RecordRTC and WhammyRecorder -->
+
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/FileSelector.js"></script>
+
+    <script>
+        document.getElementById('btn-record-webm').onclick = function() {
+            this.disabled = true;
+            getMp3Stream(function(audioStream) {
+                var canvas = document.getElementById('slideshow');
+                var canvasStream = canvas.captureStream();
+                var finalStream = new MediaStream();
+                audioStream.getAudioTracks().forEach(function(track) {
+                    finalStream.addTrack(track);
+                });
+                canvasStream.getVideoTracks().forEach(function(track) {
+                    finalStream.addTrack(track);
+                });
+                var recorder = RecordRTC(finalStream, {
+                    type: 'video'
+                });
+                recorder.startRecording();
+                var stop = false;
+                (function looper() {
+                    if(stop) {
+                        recorder.stopRecording(function() {
+                            var blob = recorder.getBlob();
+                            document.body.innerHTML = '<video controls src="' + URL.createObjectURL(blob) + '" autoplay loop></video>';
+                            audioStream.stop();
+                            canvasStream.stop();
+                        });
+                        return;
+                    }
+                    setTimeout(looper, 100);
+                })();
+                var seconds = 15;
+                var interval = setInterval(function() {
+                    seconds--;
+                    if(document.querySelector('h1')) {
+                        document.querySelector('h1').innerHTML = seconds + ' seconds remaining.';
+                    }
+                }, 1000);
+                setTimeout(function() {
+                    clearTimeout(interval);
+                    stop = true;
+                }, seconds * 1000);
+            });
+        };
+        function getMp3Stream(callback) {
+            var selector = new FileSelector();
+            selector.accept = '*.mp3';
+            selector.selectSingleFile(function(file) {
+                if(!file || !file.size) {
+                    alert('Please try again by selecting a valid mp3 file.');
+                    return;
+                }
+                 var reader = new FileReader();
+                reader.file = file;
+                reader.onload = (function(e) {
+                    // Import callback function
+                    // provides PCM audio data decoded as an audio buffer
+                    context.decodeAudioData(e.target.result, function(buffer) {
+                        createSoundSource(buffer, callback);
+                    });
+                });
+                reader.readAsArrayBuffer(reader.file);
+            });
+        }
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        var context = new AudioContext();
+        var gainNode = context.createGain();
+        gainNode.connect(context.destination);
+        gainNode.gain.value = 0; // don't play for self
+        function createSoundSource(buffer, callback) {
+            var soundSource = context.createBufferSource();
+            soundSource.loop = true;
+            soundSource.buffer = buffer;
+            soundSource.start(0, 0 / 1000);
+            soundSource.connect(gainNode);
+            var destination = context.createMediaStreamDestination();
+            soundSource.connect(destination);
+            // durtion=second*1000 (milliseconds)
+            callback(destination.stream);
+        }
+    </script>
+    </body>
+</html>
